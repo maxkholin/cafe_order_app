@@ -14,9 +14,19 @@ import androidx.appcompat.app.AppCompatActivity
 
 private const val USERNAME_INTENT = "userName"
 
-
+/**
+ * Активити для создания заказа.
+ * Пользователь выбирает тип напитка, отмечает добавки и выбирает подтип напитка.
+ */
 class MakeOrderActivity : AppCompatActivity() {
     companion object {
+        /**
+         * Создает новый интент для запуска этой активности.
+         *
+         * @param context Контекст приложения.
+         * @param userName Имя пользователя, которое будет передано в активность.
+         * @return Новый интент для запуска активности.
+         */
         fun newIntent(context: Context, userName: String): Intent {
             val intent = Intent(context, MakeOrderActivity::class.java)
             intent.putExtra(USERNAME_INTENT, userName)
@@ -55,6 +65,9 @@ class MakeOrderActivity : AppCompatActivity() {
         setupMakeOrderButton()
     }
 
+    /**
+     * Инициализирует все вью данной активити.
+     */
     private fun initViews() {
         textViewGreeting = findViewById(R.id.textViewGreeting)
         textViewExtras = findViewById(R.id.textViewDrinkExtras)
@@ -69,12 +82,20 @@ class MakeOrderActivity : AppCompatActivity() {
         buttonMakeOrder = findViewById(R.id.buttonMakeOrder)
     }
 
+    /**
+     * Настраивает вью с приветствием.
+     * Получает имя пользователя с предыдущего экрана и отображает его в приветствии.
+     */
     private fun setupGreeting() {
         userName = intent.getStringExtra(USERNAME_INTENT) ?: "Guest"
         val greetings = getString(R.string.greetings, userName)
         textViewGreeting.text = greetings
     }
 
+    /**
+     * Настраивает радио-группу выбора типа напитка.
+     * В зависимости от выбранного типа настраивает дальнейшее представление.
+     */
     private fun setupRadioGroupDrinks() {
         radioGroupDrinks.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == radioTeaButton.id) {
@@ -87,6 +108,9 @@ class MakeOrderActivity : AppCompatActivity() {
         radioTeaButton.isChecked = true //  Устанавливаем чай по умолчанию
     }
 
+    /**
+     * Настраивает дальнейшие вью при выборе Чая
+     */
     private fun onUserChoseTea() {
         drinkType = getString(R.string.radio_button_tea)
         textViewExtras.text = getString(R.string.extra_drinks, drinkType)
@@ -95,6 +119,9 @@ class MakeOrderActivity : AppCompatActivity() {
         spinnerCoffee.visibility = View.INVISIBLE
     }
 
+    /**
+     * Настраивает дальнейшие вью при выборе Кофе
+     */
     private fun onUserChoseCoffee() {
         drinkType = getString(R.string.radio_button_coffee)
         textViewExtras.text = getString(R.string.extra_drinks, drinkType)
@@ -103,12 +130,19 @@ class MakeOrderActivity : AppCompatActivity() {
         spinnerCoffee.visibility = View.VISIBLE
     }
 
+    /**
+     * Настраивает слушатель на кнопку "Сделать заказ"
+     */
     private fun setupMakeOrderButton() {
         buttonMakeOrder.setOnClickListener {
             onUserMadeOrder()
         }
     }
 
+    /**
+     * Готовит данные для передачи на следующий экран.
+     * Собирает информацию о выбранных добавках и подтипе напитка.
+     */
     private fun onUserMadeOrder() {
         val extras = arrayListOf<String>()
 
@@ -131,6 +165,13 @@ class MakeOrderActivity : AppCompatActivity() {
         launchNextScreen(extras)
     }
 
+    /**
+     * Запускает следующий экран (OrderDetailActivity).
+     *
+     * @param extras Список добавок, выбранных пользователем.
+     *
+     * Юзернейм, Тип напитка, Название, Добавки - эти параметры будут переданы на следующий экран.
+     */
     private fun launchNextScreen(extras: ArrayList<String>) {
         val intent = OrderDetailActivity.newIntent(
             this,

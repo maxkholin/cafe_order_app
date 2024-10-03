@@ -12,6 +12,10 @@ private const val DRINK_TYPE_INTENT = "drinkType"
 private const val DRINK_NAME_INTENT = "drinkName"
 private const val EXTRAS_INTENT = "extras"
 
+/**
+ * Активити для отображения деталей заказа.
+ * Получает данные из интента с предыдущего экрана.
+ */
 class OrderDetailActivity : AppCompatActivity() {
 
     private lateinit var textViewName: TextView
@@ -20,6 +24,16 @@ class OrderDetailActivity : AppCompatActivity() {
     private lateinit var textViewExtras: TextView
 
     companion object {
+        /**
+         * Создает новый интент для запуска этой активити.
+         *
+         * @param context Контекст приложения.
+         * @param userName Имя пользователя.
+         * @param drinkType Тип напитка.
+         * @param drinkName Название напитка.
+         * @param extras Добавки к напитку.
+         * @return Новый интент для запуска активити.
+         */
         fun newIntent(
             context: Context,
             userName: String,
@@ -43,6 +57,9 @@ class OrderDetailActivity : AppCompatActivity() {
         setupViews()
     }
 
+    /**
+     * Инициализирует все вью данной активити.
+     */
     private fun initViews() {
         textViewName = findViewById(R.id.Name)
         textViewDrinkType = findViewById(R.id.Drink)
@@ -50,6 +67,9 @@ class OrderDetailActivity : AppCompatActivity() {
         textViewExtras = findViewById(R.id.Extras)
     }
 
+    /**
+     * Настраивает содержимое вью на основе данных из интента.
+     */
     private fun setupViews() {
         textViewName.text = intent.getStringExtra(USER_NAME_INTENT)
         textViewDrinkType.text = intent.getStringExtra(DRINK_TYPE_INTENT)
